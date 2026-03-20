@@ -7,8 +7,14 @@ __pycache__/
 venv/
 .venv/
 env/
+
+# Environment files
+.env
 .env/
 .env.*
+
+# Tool caches
+.ruff_cache/
 
 # Packaging & build
 build/
@@ -18,6 +24,7 @@ dist/
 # Test and coverage artifacts
 .pytest_cache/
 .coverage
+.coverage.*
 htmlcov/
 
 # Tooling
@@ -26,6 +33,7 @@ htmlcov/
 # Editors & IDEs
 .vscode/
 .idea/
+.python-version
 
 # OS noise
 .DS_Store
