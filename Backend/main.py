@@ -1,16 +1,23 @@
+# backend/main.py
+
 from fastapi import FastAPI
+from database import close_driver
+from routers import users, movies, recommendations
 
-from routers import movies, recommendations, users
+app = FastAPI(
+    title="Movie Recommender API",
+    description="Graph-powered movie recommendations using Neo4j",
+    version="1.0.0"
+)
 
-
-app = FastAPI(title="Movie Recommender")
-
-# Attach feature routers
 app.include_router(users.router)
 app.include_router(movies.router)
 app.include_router(recommendations.router)
 
+@app.on_event("shutdown")
+def shutdown():
+    close_driver()
 
-@app.get("/health")
-def health_check():
-	return {"status": "ok"}
+@app.get("/")
+def root():
+    return {"status": "Movie Recommender API is running"}

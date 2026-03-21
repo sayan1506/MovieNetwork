@@ -1,17 +1,20 @@
-from contextlib import contextmanager
+# backend/database.py
+
 from neo4j import GraphDatabase
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
-def create_driver(uri: str, user: str, password: str):
-    """Create a Neo4j driver instance."""
-    return GraphDatabase.driver(uri, auth=(user, password))
+URI      = os.getenv("NEO4J_URI")
+USERNAME = os.getenv("NEO4J_USERNAME")
+PASSWORD = os.getenv("NEO4J_PASSWORD")
 
+driver = GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD))
 
-@contextmanager
-def get_session(driver):
-    """Yield a session and ensure it closes."""
-    session = driver.session()
-    try:
-        yield session
-    finally:
-        session.close()
+def get_session():
+    return driver.session()
+
+def close_driver():
+    driver.close()
+    print("Driver closed!")
