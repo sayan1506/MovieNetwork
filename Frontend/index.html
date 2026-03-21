@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieNetwork | AI Recommendations</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Auth / Setup Screen -->
+        <div id="auth-screen" class="glass-panel active">
+            <h1 class="gradient-text">MovieNetwork</h1>
+            <p>Connect. Discover. Watch.</p>
+            
+            <div class="tabs">
+                <button class="tab-btn active" data-target="login">Login</button>
+                <button class="tab-btn" data-target="register">Register</button>
+            </div>
+
+            <div id="login" class="tab-content active">
+                <form id="login-form">
+                    <div class="input-group">
+                        <label>User ID</label>
+                        <input type="text" id="login-id" required placeholder="Enter your User ID">
+                    </div>
+                    <button type="submit" class="primary-btn">Enter Network</button>
+                </form>
+            </div>
+
+            <div id="register" class="tab-content">
+                <form id="register-form">
+                    <div class="input-group">
+                        <label>User ID</label>
+                        <input type="text" id="reg-id" required placeholder="e.g. u101">
+                    </div>
+                    <div class="input-group">
+                        <label>Name</label>
+                        <input type="text" id="reg-name" required placeholder="John Doe">
+                    </div>
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" id="reg-email" required placeholder="john@example.com">
+                    </div>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" id="reg-password" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="primary-btn">Join Network</button>
+                </form>
+            </div>
+            <div id="auth-message" class="message"></div>
+        </div>
+
+        <!-- Main Dashboard Screen -->
+        <div id="dashboard-screen" class="glass-panel hidden fade-enter">
+            <header class="dashboard-header">
+                <div>
+                    <h2 class="gradient-text">MovieNetwork</h2>
+                    <p class="subtitle">Welcome back, <span id="current-user-display">User</span></p>
+                </div>
+                <button id="logout-btn" class="secondary-btn small-btn">Logout</button>
+            </header>
+
+            <nav class="main-nav">
+                <button class="nav-item active" data-view="discover">Discover</button>
+                <button class="nav-item" data-view="movies">Movies</button>
+                <button class="nav-item" data-view="friends">Network</button>
+            </nav>
+
+            <main class="dashboard-content">
+                <!-- Discover View -->
+                <section id="view-discover" class="view-section active">
+                    <div class="controls">
+                        <button class="rec-btn" data-type="friends">Friend Recs</button>
+                        <button class="rec-btn" data-type="content">Content Recs</button>
+                        <button class="rec-btn" data-type="hybrid">Hybrid Recs</button>
+                    </div>
+                    <div id="recommendations-container" class="cards-grid">
+                        <div class="empty-state">Select a recommendation type above to discover movies!</div>
+                    </div>
+                </section>
+
+                <!-- Movies View -->
+                <section id="view-movies" class="view-section hidden">
+                    <div class="split-layout">
+                        <div class="form-card">
+                            <h3>Add a Movie</h3>
+                            <form id="add-movie-form">
+                                <div class="input-group">
+                                    <label>Movie ID</label>
+                                    <input type="text" id="movie-id" required placeholder="e.g. m101">
+                                </div>
+                                <div class="input-group">
+                                    <label>Title</label>
+                                    <input type="text" id="movie-title" required placeholder="The Matrix">
+                                </div>
+                                <div class="input-group">
+                                    <label>Summary</label>
+                                    <textarea id="movie-summary" rows="2" placeholder="A hacker discovers reality..."></textarea>
+                                </div>
+                                <div class="input-group">
+                                    <label>Genres (comma separated)</label>
+                                    <input type="text" id="movie-genres" required placeholder="Action, Sci-Fi">
+                                </div>
+                                <button type="submit" class="primary-btn">Add Movie</button>
+                            </form>
+                            <div id="movie-msg"></div>
+                        </div>
+
+                        <div class="form-card">
+                            <h3>Like a Movie</h3>
+                            <form id="like-movie-form">
+                                <div class="input-group">
+                                    <label>Movie ID</label>
+                                    <input type="text" id="like-movie-id" required placeholder="e.g. m101">
+                                </div>
+                                <div class="input-group">
+                                    <label>Rating (1-5)</label>
+                                    <input type="number" step="0.5" min="1" max="5" id="like-rating" required placeholder="4.5">
+                                </div>
+                                <button type="submit" class="primary-btn">Submit Rating</button>
+                            </form>
+                            <div id="like-msg"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Network View -->
+                <section id="view-friends" class="view-section hidden">
+                    <div class="split-layout">
+                        <div class="form-card">
+                            <h3>Add a Friend</h3>
+                            <form id="add-friend-form">
+                                <div class="input-group">
+                                    <label>Friend's User ID</label>
+                                    <input type="text" id="friend-id" required placeholder="e.g. u102">
+                                </div>
+                                <button type="submit" class="primary-btn">Add Friend</button>
+                            </form>
+                            <div id="friend-msg"></div>
+                        </div>
+
+                        <div class="form-card">
+                            <h3>Find Connection Path</h3>
+                            <form id="find-path-form">
+                                <div class="input-group">
+                                    <label>Target User ID</label>
+                                    <input type="text" id="path-target-id" required placeholder="e.g. u103">
+                                </div>
+                                <button type="submit" class="primary-btn">Find Path</button>
+                            </form>
+                            <div id="path-result" class="result-box"></div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
